@@ -1,0 +1,128 @@
+[
+  {
+    "number": 1,
+    "name": "Max Verstappen",
+    "team": "Red Bull Racing"
+  },
+  {
+    "number": 11,
+    "name": "Sergio Pérez",
+    "team": "Red Bull Racing"
+  },
+  {
+    "number": 16,
+    "name": "Charles Leclerc",
+    "team": "Ferrari"
+  },
+  {
+    "number": 55,
+    "name": "Carlos Sainz",
+    "team": "Ferrari"
+  },
+  {
+    "number": 63,
+    "name": "George Russell",
+    "team": "Mercedes"
+  },
+  {
+    "number": 44,
+    "name": "Lewis Hamilton",
+    "team": "Mercedes"
+  },
+  {
+    "number": 14,
+    "name": "Fernando Alonso",
+    "team": "Aston Martin"
+  },
+  {
+    "number": 81,
+    "name": "Oscar Piastri",
+    "team": "McLaren"
+  },
+  {
+    "number": 4,
+    "name": "Lando Norris",
+    "team": "McLaren"
+  },
+  {
+    "number": 18,
+    "name": "Lance Stroll",
+    "team": "Aston Martin"
+  },
+  {
+    "number": 27,
+    "name": "Nico Hülkenberg",
+    "team": "Haas"
+  },
+  {
+    "number": 20,
+    "name": "Kevin Magnussen",
+    "team": "Haas"
+  },
+  {
+    "number": 10,
+    "name": "Pierre Gasly",
+    "team": "Alpine"
+  },
+  {
+    "number": 31,
+    "name": "Esteban Ocon",
+    "team": "Alpine"
+  },
+  {
+    "number": 3,
+    "name": "Daniel Ricciardo",
+    "team": "AlphaTauri"
+  },
+  {
+    "number": 22,
+    "name": "Alexander Albon",
+    "team": "Williams"
+  },
+  {
+    "number": 24,
+    "name": "Zhou Guanyu",
+    "team": "Alfa Romeo"
+  },
+  {
+    "number": 2,
+    "name": "Logan Sargeant",
+    "team": "Williams"
+  },
+  {
+    "number": 7,
+    "name": "Kimi Räikkönen",
+    "team": "Alfa Romeo"
+  },
+  {
+    "number": 9,
+    "name": "Jenson Button",
+    "team": "McLaren"
+  },
+  {
+    "number": 6,
+    "name": "Sebastian Vettel",
+    "team": "Aston Martin"
+  },
+  {
+    "number": 5,
+    "name": "Juan Pablo Montoya",
+    "team": "Williams"
+  },
+  {
+    "number": 8,
+    "name": "Ayrton Senna",
+    "team": "McLaren"
+  },
+  {
+    "number": 12,
+    "name": "Alain Prost",
+    "team": "McLaren"
+  },
+  {
+    "number": 17,
+    "name": "Michael Schumacher",
+    "team": "Ferrari"
+  }
+]
+

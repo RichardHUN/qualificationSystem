@@ -1,0 +1,199 @@
+[
+  {
+    "name": "Bahrain International Circuit",
+    "country": "Bahrain",
+    "city": "Sakhir",
+    "length": 5.412,
+    "elevation": 7
+  },
+  {
+    "name": "Jeddah Corniche Circuit",
+    "country": "Saudi Arabia",
+    "city": "Jeddah",
+    "length": 6.174,
+    "elevation": 15
+  },
+  {
+    "name": "Albert Park Circuit",
+    "country": "Australia",
+    "city": "Melbourne",
+    "length": 5.278,
+    "elevation": 5
+  },
+  {
+    "name": "Suzuka International Racing Course",
+    "country": "Japan",
+    "city": "Suzuka",
+    "length": 5.807,
+    "elevation": 50
+  },
+  {
+    "name": "Shanghai International Circuit",
+    "country": "China",
+    "city": "Shanghai",
+    "length": 5.451,
+    "elevation": 5
+  },
+  {
+    "name": "Miami International Autodrome",
+    "country": "USA",
+    "city": "Miami",
+    "length": 5.412,
+    "elevation": 2
+  },
+  {
+    "name": "Autodromo Enzo e Dino Ferrari",
+    "country": "Italy",
+    "city": "Imola",
+    "length": 4.909,
+    "elevation": 37
+  },
+  {
+    "name": "Circuit de Monaco",
+    "country": "Monaco",
+    "city": "Monte Carlo",
+    "length": 3.337,
+    "elevation": 7
+  },
+  {
+    "name": "Circuit Gilles Villeneuve",
+    "country": "Canada",
+    "city": "Montreal",
+    "length": 4.361,
+    "elevation": 20
+  },
+  {
+    "name": "Circuit de Barcelona-Catalunya",
+    "country": "Spain",
+    "city": "Barcelona",
+    "length": 4.675,
+    "elevation": 109
+  },
+  {
+    "name": "Red Bull Ring",
+    "country": "Austria",
+    "city": "Spielberg",
+    "length": 4.318,
+    "elevation": 678
+  },
+  {
+    "name": "Silverstone Circuit",
+    "country": "United Kingdom",
+    "city": "Silverstone",
+    "length": 5.891,
+    "elevation": 153
+  },
+  {
+    "name": "Hungaroring",
+    "country": "Hungary",
+    "city": "Budapest",
+    "length": 4.381,
+    "elevation": 300
+  },
+  {
+    "name": "Circuit de Spa-Francorchamps",
+    "country": "Belgium",
+    "city": "Spa",
+    "length": 7.004,
+    "elevation": 400
+  },
+  {
+    "name": "Circuit Zandvoort",
+    "country": "Netherlands",
+    "city": "Zandvoort",
+    "length": 4.259,
+    "elevation": 6
+  },
+  {
+    "name": "Autodromo Nazionale di Monza",
+    "country": "Italy",
+    "city": "Monza",
+    "length": 5.793,
+    "elevation": 162
+  },
+  {
+    "name": "Baku City Circuit",
+    "country": "Azerbaijan",
+    "city": "Baku",
+    "length": 6.003,
+    "elevation": -28
+  },
+  {
+    "name": "Marina Bay Street Circuit",
+    "country": "Singapore",
+    "city": "Singapore",
+    "length": 5.063,
+    "elevation": 1
+  },
+  {
+    "name": "Circuit of the Americas",
+    "country": "USA",
+    "city": "Austin",
+    "length": 5.513,
+    "elevation": 161
+  },
+  {
+    "name": "Autódromo Hermanos Rodríguez",
+    "country": "Mexico",
+    "city": "Mexico City",
+    "length": 4.304,
+    "elevation": 2229
+  },
+  {
+    "name": "Autódromo José Carlos Pace",
+    "country": "Brazil",
+    "city": "São Paulo",
+    "length": 4.309,
+    "elevation": 800
+  },
+  {
+    "name": "Las Vegas Street Circuit",
+    "country": "USA",
+    "city": "Las Vegas",
+    "length": 6.201,
+    "elevation": 610
+  },
+  {
+    "name": "Losail International Circuit",
+    "country": "Qatar",
+    "city": "Lusail",
+    "length": 5.380,
+    "elevation": 10
+  },
+  {
+    "name": "Yas Marina Circuit",
+    "country": "UAE",
+    "city": "Abu Dhabi",
+    "length": 5.281,
+    "elevation": 3
+  },
+  {
+    "name": "Nürburgring",
+    "country": "Germany",
+    "city": "Nürburg",
+    "length": 5.148,
+    "elevation": 620
+  },
+  {
+    "name": "Hockenheimring",
+    "country": "Germany",
+    "city": "Hockenheim",
+    "length": 4.574,
+    "elevation": 103
+  },
+  {
+    "name": "Istanbul Park",
+    "country": "Turkey",
+    "city": "Istanbul",
+    "length": 5.338,
+    "elevation": 85
+  },
+  {
+    "name": "Sepang International Circuit",
+    "country": "Malaysia",
+    "city": "Sepang",
+    "length": 5.543,
+    "elevation": 18
+  }
+]
+
