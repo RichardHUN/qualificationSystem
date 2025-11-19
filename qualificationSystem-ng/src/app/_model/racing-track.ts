@@ -2,6 +2,6 @@ export class RacingTrack {
   name!: string;
   country!: string;
   city!: string;
-  lengthI!: number;
+  length!: number;
   elevation!: number;
 }

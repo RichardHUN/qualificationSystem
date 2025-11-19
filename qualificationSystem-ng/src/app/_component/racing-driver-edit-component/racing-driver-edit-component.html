@@ -3,21 +3,17 @@
     <div class="col-12">
       <div class="card my-2">
         <div class="card-header text-bg-primary">
-          {{ racingDriver.number ? 'Update' : 'Create' }}
+          {{driverExists ? 'Update' : 'Create' }}
         </div>
         <div class="card-body">
-          @if (racingDriver.number) {
-            <div class="form-floating">
-              <input disabled class="form-control"
-                     id="number"
-                     [(ngModel)]="racingDriver.number">
-              <label for="number">Racing Driver's number</label>
-            </div>
-          } @else {
-            <div class="alert alert-info">
-              The racing driver's number is determined by the server.
-            </div>
-          }
+          <div class="form-floating">
+            <input class="form-control"
+                id="number"
+                type="number"
+                [(ngModel)]="racingDriver.number"
+                (ngModelChange)="checkDriverExists($event)">
+            <label for="number">Racing Driver's number</label>
+          </div>
 
           <div class="form-floating mt-2">
             <input class="form-control" id="name"
@@ -32,7 +28,7 @@
           </div>
 
           <div class="mt-2">
-            @if (!racingDriver.number) {
+            @if (!driverExists) {
               <button class="btn btn-outline-primary w-100"  (click)="create()">
                 Create new Racing Driver
               </button>
@@ -43,6 +39,67 @@
             }
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button #openUpdateSuccessModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#updateSuccessModal">
+  Launch update success modal
+</button>
+
+<div class="modal fade" id="updateSuccessModal" tabindex="-1" aria-labelledby="updateSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-success m-0">
+        <h1 class="modal-title fs-5" id="updateSuccessModalLabel">Updated successfully!</h1>
+        <p>
+          Racing Driver was updated successfully!
+        </p>
+        <button #closeUpdateSuccessModal type="button" class="btn btn-success btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button #openCreateSuccessModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#createSuccessModal">
+  Launch create success modal
+</button>
+
+<div class="modal fade" id="createSuccessModal" tabindex="-1" aria-labelledby="createSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-success m-0">
+        <h1 class="modal-title fs-5" id="createSuccessModalLabel">Created successfully!</h1>
+        <p>
+          Racing Driver was created successfully!
+        </p>
+        <button #closeCreateSuccessModal type="button" class="btn btn-success btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button #openCreateErrorModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#createErrorModal">
+  Launch error modal
+</button>
+
+<div class="modal fade" id="createErrorModal" tabindex="-1" aria-labelledby="createErrorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-danger m-0">
+        <h1 class="modal-title fs-5" id="createErrorModalLabel">Error!</h1>
+        <p>
+          Driver already exists with the given number!
+        </p>
+        <button #closeCreateErrorModal type="button" class="btn btn-danger btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
       </div>
     </div>
   </div>

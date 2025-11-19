@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {RacingDriver} from '../../_model/racing-driver';
 import {RacingDriverClient} from '../../_service/racing-driver-client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormsModule} from '@angular/forms';
+import {delay, tap} from 'rxjs';
 
 @Component({
   selector: 'app-racing-driver-edit-component',
@@ -17,6 +18,26 @@ export class RacingDriverEditComponent
 
   protected racingDriver!: RacingDriver;
 
+  protected driverExists: boolean = false;
+
+  @ViewChild('openUpdateSuccessModal')
+  protected openUpdateSuccessModal!: ElementRef;
+
+  @ViewChild('closeUpdateSuccessModal')
+  protected closeUpdateSuccessModal!: ElementRef;
+
+  @ViewChild('openCreateSuccessModal')
+  protected openCreateSuccessModal!: ElementRef;
+
+  @ViewChild('closeCreateSuccessModal')
+  protected closeCreateSuccessModal!: ElementRef;
+
+  @ViewChild('openCreateErrorModal')
+  protected openCreateErrorModal!: ElementRef;
+
+  @ViewChild('closeCreateErrorModal')
+  protected closeCreateErrorModal!: ElementRef;
+
   constructor(
     private client: RacingDriverClient,
     private route: ActivatedRoute,
@@ -29,11 +50,15 @@ export class RacingDriverEditComponent
       .subscribe(params => {
         if(params.get('number') == 'create'){
           this.racingDriver = {} as RacingDriver;
+          this.driverExists = false;
         } else {
+          const driverNumber = Number(params.get('number')!);
           this.client
-            .get(Number(params.get('number')!))
+            .get(driverNumber)
             .subscribe(racingDriver => {
               this.racingDriver = racingDriver;
+              // Check if driver exists to determine create vs update mode
+              this.checkDriverExists(driverNumber);
             })
         }
       })
@@ -42,14 +67,20 @@ export class RacingDriverEditComponent
   protected create(): void {
     this.client
       .create(this.racingDriver)
+      .pipe(
+        tap(response => this.racingDriver = response),
+        tap(() => this.openCreateSuccessModal.nativeElement.click()),
+        delay(5000),
+        tap(() => this.closeCreateSuccessModal.nativeElement.click())
+      )
       .subscribe({
         next: racingDriver => {
-          this.racingDriver = racingDriver;
-          alert("Racing Driver created successfully!");
           this.router.navigate(['racing-drivers', racingDriver.number])
         },
-        error: error => {
-          alert(JSON.stringify(error));
+        error: () => {
+          this.openCreateErrorModal.nativeElement.click();
+          delay(5000);
+          this.closeCreateErrorModal.nativeElement.click();
         }
       })
   }
@@ -57,15 +88,22 @@ export class RacingDriverEditComponent
   protected update(): void {
     this.client
       .update(this.racingDriver)
-      .subscribe({
-        next: racingDriver => {
-          this.racingDriver = racingDriver;
-          alert("Racing Driver edited successfully!");
-        },
-        error: error => {
-          alert(JSON.stringify(error));
-        }
-      })
+      .pipe(
+        tap(response => this.racingDriver = response),
+        tap(() => this.openUpdateSuccessModal.nativeElement.click()),
+        delay(5000),
+        tap(() => this.closeUpdateSuccessModal.nativeElement.click())
+      )
+      .subscribe();
+  }
+
+  protected checkDriverExists(number: number): void {
+    if(!number) {
+      this.driverExists = false;
+      return;
+    }
+    this.client.existsByNumber(number)
+      .subscribe(exists => this.driverExists = exists);
   }
 
 }

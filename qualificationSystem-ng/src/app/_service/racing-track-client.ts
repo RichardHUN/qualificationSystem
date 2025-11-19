@@ -1,0 +1,42 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {RacingTrack} from '../_model/racing-track';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RacingTrackClient {
+  private readonly rootUrl: string =
+    'http://localhost:8084/api/racing-tracks';
+
+  constructor(
+    private http: HttpClient
+  ) {}
+
+  public findAll() {
+    return this.http
+      .get<RacingTrack[]>(this.rootUrl);
+  }
+
+  delete(city: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.rootUrl}/${city}`);
+  }
+
+  get(city: string): Observable<RacingTrack> {
+    return this.http
+      .get<RacingTrack>(`${this.rootUrl}/${city}`);
+  }
+
+  create(racingTrack: RacingTrack): Observable<RacingTrack> {
+    return this.http
+      .post<RacingTrack>(this.rootUrl, racingTrack);
+  }
+
+  update(racingTrack: RacingTrack): Observable<RacingTrack> {
+    return this.http
+      .put<RacingTrack>(this.rootUrl + '/' + racingTrack.city, racingTrack)
+  }
+
+}

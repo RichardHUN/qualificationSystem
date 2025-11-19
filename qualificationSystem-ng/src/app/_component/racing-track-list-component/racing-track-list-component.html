@@ -1,1 +1,50 @@
-<p>racing-track-list-component works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-2">
+        <div class="card-header text-bg-primary
+            d-flex flex-row">
+          <i class="bi bi-car-front-fill me-1"></i>
+          Racing Tracks
+          <i class="bi bi-sign-turn-slight-right-fill ms-1"></i>
+        </div>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-striped table-hover m-0">
+            <thead class="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Country</th>
+              <th>City</th>
+              <th class="d-none d-md-table-cell">Length</th>
+              <th class="d-none d-md-table-cell">Elevation</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+              @for (racingTrack of racingTracks; track racingTrack.city) {
+                <tr>
+                  <td>{{racingTrack.name}}</td>
+                  <td>{{racingTrack.country}}</td>
+                  <td>{{racingTrack.city}}</td>
+                  <td class="d-none d-md-table-cell">{{racingTrack.length}}km</td>
+                  <td class="d-none d-md-table-cell">{{racingTrack.elevation}}m</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-danger"
+                            (click)="delete(racingTrack.city)">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <a class="btn btn-outline-primary float-end"
+          [routerLink]="'create'">Create new Racing Track</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
