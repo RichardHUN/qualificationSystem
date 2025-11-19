@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-2">
+        <div class="card-header text-bg-primary">
+          {{ racingDriver.number ? 'Update' : 'Create' }}
+        </div>
+        <div class="card-body">
+          @if (racingDriver.number) {
+            <div class="form-floating">
+              <input disabled class="form-control"
+                     id="number"
+                     [(ngModel)]="racingDriver.number">
+              <label for="number">Racing Driver's number</label>
+            </div>
+          } @else {
+            <div class="alert alert-info">
+              The racing driver's number is determined by the server.
+            </div>
+          }
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="name"
+            [(ngModel)]="racingDriver.name">
+            <label for="name">Racing Driver's name</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="team"
+                   [(ngModel)]="racingDriver.team">
+            <label for="name">Racing Driver's team</label>
+          </div>
+
+          <div class="mt-2">
+            @if (!racingDriver.number) {
+              <button class="btn btn-outline-primary w-100"  (click)="create()">
+                Create new Racing Driver
+              </button>
+            } @else {
+              <button class="btn btn-outline-primary w-100"  (click)="update()">
+                Save Racing Driver
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

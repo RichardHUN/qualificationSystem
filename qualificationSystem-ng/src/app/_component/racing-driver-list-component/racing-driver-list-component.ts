@@ -28,5 +28,12 @@ export class RacingDriverListComponent
       });
   }
 
+  protected delete(number: number): void {
+    this.client
+      .delete(number)
+      .subscribe(response => {
+        this.ngOnInit();
+      })
+  }
 
 }
