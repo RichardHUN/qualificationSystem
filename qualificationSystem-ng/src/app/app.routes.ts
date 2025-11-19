@@ -2,10 +2,12 @@ import { Routes } from '@angular/router';
 import {RacingDriverListComponent} from './_component/racing-driver-list-component/racing-driver-list-component';
 import {RacingDriverEditComponent} from './_component/racing-driver-edit-component/racing-driver-edit-component';
 import {RacingTrackListComponent} from './_component/racing-track-list-component/racing-track-list-component';
+import {RacingTrackEditComponent} from './_component/racing-track-edit-component/racing-track-edit-component';
 
 export const routes: Routes = [
   {path: 'racing-driver', component: RacingDriverListComponent},
   {path: 'racing-driver/:number', component: RacingDriverEditComponent},
   {path: 'racing-tracks', component: RacingTrackListComponent},
+  {path: 'racing-tracks/:city', component: RacingTrackEditComponent},
   {path: '**', redirectTo: 'racing-driver'}
 ];

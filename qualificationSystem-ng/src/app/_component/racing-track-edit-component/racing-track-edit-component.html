@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-2">
+        <div class="card-header text-bg-primary">
+          {{trackExists ? 'Update' : 'Create' }}
+        </div>
+        <div class="card-body">
+          <div class="form-floating">
+            <input class="form-control" id="name"
+                   [(ngModel)]="racingTrack.country">
+            <label for="name">Racing Track's country</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control"
+                   id="city"
+                   [(ngModel)]="racingTrack.city"
+                   (ngModelChange)="checkTrackExists($event)">
+            <label for="number">Racing Track's city</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="name"
+                   [(ngModel)]="racingTrack.name">
+            <label for="name">Racing Track's name</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="length"
+                   type="number"
+                   [(ngModel)]="racingTrack.length">
+            <label for="length">Racing Track's length</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="elevation"
+                   type="number"
+                   [(ngModel)]="racingTrack.elevation">
+            <label for="elevation">Racing Track's elevation</label>
+          </div>
+
+          <div class="mt-2">
+            @if (!trackExists) {
+              <button class="btn btn-outline-primary w-100"  (click)="create()">
+                Create new Racing Track
+              </button>
+            } @else {
+              <button class="btn btn-outline-primary w-100"  (click)="update()">
+                Save Racing Track
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button #openUpdateSuccessModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#updateSuccessModal">
+  Launch update success modal
+</button>
+
+<div class="modal fade" id="updateSuccessModal" tabindex="-1" aria-labelledby="updateSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-success m-0">
+        <h1 class="modal-title fs-5" id="updateSuccessModalLabel">Updated successfully!</h1>
+        <p>
+          Racing Track was updated successfully!
+        </p>
+        <button #closeUpdateSuccessModal type="button" class="btn btn-success btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button #openCreateSuccessModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#createSuccessModal">
+  Launch create success modal
+</button>
+
+<div class="modal fade" id="createSuccessModal" tabindex="-1" aria-labelledby="createSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-success m-0">
+        <h1 class="modal-title fs-5" id="createSuccessModalLabel">Created successfully!</h1>
+        <p>
+          Racing Track was created successfully!
+        </p>
+        <button #closeCreateSuccessModal type="button" class="btn btn-success btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button #openCreateErrorModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#createErrorModal">
+  Launch error modal
+</button>
+
+<div class="modal fade" id="createErrorModal" tabindex="-1" aria-labelledby="createErrorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-danger m-0">
+        <h1 class="modal-title fs-5" id="createErrorModalLabel">Error!</h1>
+        <p>
+          Track already exists in the given city!
+        </p>
+        <button #closeCreateErrorModal type="button" class="btn btn-danger btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

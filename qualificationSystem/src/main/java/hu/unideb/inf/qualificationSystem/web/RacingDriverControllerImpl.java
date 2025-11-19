@@ -23,7 +23,6 @@ public class RacingDriverControllerImpl implements RacingDriverController {
     public ResponseEntity<RacingDriver> getById(Integer id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
-                //.orElseGet(() -> ResponseEntity.notFound().build());
                 .orElseGet(() -> ResponseEntity.ok().build());
     }
 

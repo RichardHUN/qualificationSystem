@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {RacingTrack} from '../_model/racing-track';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,16 @@ export class RacingTrackClient {
 
   update(racingTrack: RacingTrack): Observable<RacingTrack> {
     return this.http
-      .put<RacingTrack>(this.rootUrl + '/' + racingTrack.city, racingTrack)
+      .put<RacingTrack>(`${this.rootUrl}/${racingTrack.city}`, racingTrack)
+  }
+
+  existsByCity(city: string): Observable<boolean> {
+    return this.http
+      .get<RacingTrack | null>(`${this.rootUrl}/${city}`)
+      .pipe(
+        map((track) => track !== null && track !== undefined),
+        catchError(() => of(false))
+      );
   }
 
 }

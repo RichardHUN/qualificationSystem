@@ -23,7 +23,7 @@ public class RacingTrackControllerImpl implements RacingTrackController {
     public ResponseEntity<RacingTrack> getById(String city) {
         return service.getById(city)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.ok().build());
     }
 
     @Override
@@ -37,9 +37,9 @@ public class RacingTrackControllerImpl implements RacingTrackController {
     }
 
     @Override
-    public ResponseEntity<RacingTrack> update(String id, RacingTrack track) {
+    public ResponseEntity<RacingTrack> update(String city, RacingTrack track) {
         try {
-            RacingTrack updated = service.update(id, track);
+            RacingTrack updated = service.update(city, track);
             return ResponseEntity.ok(updated);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

@@ -1,24 +1,25 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {RacingDriver} from '../../_model/racing-driver';
 import {RacingDriverClient} from '../../_service/racing-driver-client';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {RacingTrack} from '../../_model/racing-track';
 import {delay, tap} from 'rxjs';
+import {RacingTrackClient} from '../../_service/racing-track-client';
 
 @Component({
-  selector: 'app-racing-driver-edit-component',
+  selector: 'app-racing-track-edit-component',
   imports: [
     FormsModule
   ],
-  templateUrl: './racing-driver-edit-component.html',
-  styleUrl: './racing-driver-edit-component.css',
+  templateUrl: './racing-track-edit-component.html',
+  styleUrl: './racing-track-edit-component.css',
 })
-export class RacingDriverEditComponent
-  implements OnInit {
+export class RacingTrackEditComponent implements OnInit {
 
-  protected racingDriver!: RacingDriver;
+  protected racingTrack!: RacingTrack;
 
-  protected driverExists: boolean = false;
+  protected trackExists: boolean = false;
 
   @ViewChild('openUpdateSuccessModal')
   protected openUpdateSuccessModal!: ElementRef;
@@ -39,7 +40,7 @@ export class RacingDriverEditComponent
   protected closeCreateErrorModal!: ElementRef;
 
   constructor(
-    private client: RacingDriverClient,
+    private client: RacingTrackClient,
     private route: ActivatedRoute,
     private router: Router,
   ) {
@@ -48,16 +49,16 @@ export class RacingDriverEditComponent
   ngOnInit(): void {
     this.route.paramMap
       .subscribe(params => {
-        if(params.get('number') == 'create'){
-          this.racingDriver = {} as RacingDriver;
-          this.driverExists = false;
+        if(params.get('city') == 'create'){
+          this.racingTrack = {} as RacingTrack;
+          this.trackExists = false;
         } else {
-          const driverNumber = Number(params.get('number')!);
+          const trackCity = params.get('city')!;
           this.client
-            .get(driverNumber)
-            .subscribe(racingDriver => {
-              this.racingDriver = racingDriver;
-              this.checkDriverExists(driverNumber);
+            .get(trackCity)
+            .subscribe(racingTrack => {
+              this.racingTrack = racingTrack;
+              this.checkTrackExists(trackCity);
             })
         }
       })
@@ -65,16 +66,16 @@ export class RacingDriverEditComponent
 
   protected create(): void {
     this.client
-      .create(this.racingDriver)
+      .create(this.racingTrack)
       .pipe(
-        tap(response => this.racingDriver = response),
+        tap(response => this.racingTrack = response),
         tap(() => this.openCreateSuccessModal.nativeElement.click()),
         delay(5000),
         tap(() => this.closeCreateSuccessModal.nativeElement.click())
       )
       .subscribe({
-        next: racingDriver => {
-          this.router.navigate(['racing-drivers'])
+        next: racingTrack => {
+          this.router.navigate(['racing-tracks'])
         },
         error: () => {
           this.openCreateErrorModal.nativeElement.click();
@@ -86,9 +87,9 @@ export class RacingDriverEditComponent
 
   protected update(): void {
     this.client
-      .update(this.racingDriver)
+      .update(this.racingTrack)
       .pipe(
-        tap(response => this.racingDriver = response),
+        tap(response => this.racingTrack = response),
         tap(() => this.openUpdateSuccessModal.nativeElement.click()),
         delay(5000),
         tap(() => this.closeUpdateSuccessModal.nativeElement.click())
@@ -96,13 +97,13 @@ export class RacingDriverEditComponent
       .subscribe();
   }
 
-  protected checkDriverExists(number: number): void {
-    if(!number) {
-      this.driverExists = false;
+  protected checkTrackExists(city: string): void {
+    if(!city) {
+      this.trackExists = false;
       return;
     }
-    this.client.existsByNumber(number)
-      .subscribe(exists => this.driverExists = exists);
+    this.client.existsByCity(city)
+      .subscribe(exists => this.trackExists = exists);
   }
 
 }
