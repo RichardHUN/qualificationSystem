@@ -1,5 +1,6 @@
 package hu.unideb.inf.qualificationSystem.web;
 
+import hu.unideb.inf.qualificationSystem.model.RacingDriver;
 import hu.unideb.inf.qualificationSystem.model.TrackTime;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public interface TrackTimeController {
 
     @PutMapping("/{id}")
     ResponseEntity<TrackTime> update(@PathVariable UUID id, @RequestBody TrackTime trackTime);
+
+    @PutMapping("/{id}/penalty")
+    ResponseEntity<TrackTime> penalty(@PathVariable UUID id, @RequestBody Integer penalty);
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@PathVariable UUID id);

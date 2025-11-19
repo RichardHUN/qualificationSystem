@@ -21,8 +21,9 @@ public interface TrackTimeService {
 
     TrackTime update(UUID id, TrackTime trackTime);
 
-    void delete(UUID id);
+    TrackTime penalty(UUID id, Integer penalty);
 
+    void delete(UUID id);
 
     boolean existsById(UUID id);
 }

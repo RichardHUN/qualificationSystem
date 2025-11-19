@@ -1,5 +1,6 @@
 package hu.unideb.inf.qualificationSystem.web;
 
+import hu.unideb.inf.qualificationSystem.model.RacingDriver;
 import hu.unideb.inf.qualificationSystem.model.TrackTime;
 import hu.unideb.inf.qualificationSystem.service.TrackTimeService;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,11 @@ public class TrackTimeControllerImpl implements TrackTimeController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Override
+    public ResponseEntity<TrackTime> penalty(UUID id, Integer penalty) {
+        return ResponseEntity.ok(service.penalty(id, penalty));
     }
 
     @Override

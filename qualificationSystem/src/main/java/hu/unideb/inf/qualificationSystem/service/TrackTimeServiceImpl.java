@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -87,11 +88,21 @@ public class TrackTimeServiceImpl implements TrackTimeService {
     }
 
     @Override
+    public TrackTime penalty(UUID id, Integer penalty) {
+        Optional<TrackTime> existing = repository.findById(id);
+        if (existing.isPresent()) {
+            TrackTime trackTime = existing.get();
+            trackTime.setTime(trackTime.getTime().plus(Duration.ofSeconds(penalty)));
+            return repository.save(trackTime);
+        }
+        throw new RuntimeException("TrackTime not found with id: " + id);
+    }
+
+    @Override
     public void delete(UUID id) {
         log.info("Deleting track time with id: {}", id);
         repository.deleteById(id);
     }
-
 
     @Override
     public boolean existsById(UUID id) {
