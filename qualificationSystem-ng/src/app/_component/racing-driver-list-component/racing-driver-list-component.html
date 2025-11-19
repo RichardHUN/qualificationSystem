@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+      <th>Team</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (racingDriver of racingDrivers; track racingDriver.number) {
+      <tr>
+        <td>{{racingDriver.number}}</td>
+        <td>{{racingDriver.name}}</td>
+        <td>{{racingDriver.team}}</td>
+      </tr>
+    }
+  </tbody>
+</table>
