@@ -30,20 +30,22 @@
                   <td>{{trackTime.driver.name}}</td>
                   <td>{{trackTime.track.name}}</td>
                   <td>
-                    <button class="btn btn-sm btn-outline-danger"
-                            (click)="delete(trackTime.id)">
-                      Delete
-                    </button>
+                    <div class="d-flex flex-column flex-lg-row gap-2">
+                      <button class="btn btn-sm btn-outline-danger"
+                              (click)="delete(trackTime.id)">
+                        Delete
+                      </button>
 
-                    <button class="btn btn-sm btn-outline-warning"
-                            (click)="penalty(trackTime.id)">
-                      Penalty
-                    </button>
+                      <button class="btn btn-sm btn-outline-warning"
+                              (click)="penalty(trackTime.id)">
+                        Penalty
+                      </button>
 
-                    <button class="btn btn-sm btn-outline-info"
-                            (click)="update(trackTime.id)">
-                      Update
-                    </button>
+                      <button class="btn btn-sm btn-outline-info"
+                              (click)="update(trackTime.id)">
+                        Update
+                      </button>
+                    </div>
                   </td>
                 </tr>
               }

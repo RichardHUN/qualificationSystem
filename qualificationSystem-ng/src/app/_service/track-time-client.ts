@@ -9,7 +9,7 @@ import {of} from 'rxjs';
 })
 export class TrackTimeClient {
   private readonly rootUrl: string =
-    'http://localhost:8084/api/track-times';
+    'api/track-times';
 
   constructor(
     private http: HttpClient,

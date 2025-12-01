@@ -25,15 +25,17 @@
                   <td>{{racingDriver.name}}</td>
                   <td>{{racingDriver.team}}</td>
                   <td>
-                    <button class="btn btn-sm btn-outline-danger"
-                      (click)="delete(racingDriver.number)">
-                      Delete
-                    </button>
+                    <div class="d-flex flex-column flex-md-row gap-2">
+                      <button class="btn btn-sm btn-outline-danger"
+                        (click)="delete(racingDriver.number)">
+                        Delete
+                      </button>
 
-                    <button class="btn btn-sm btn-outline-info"
-                            (click)="update(racingDriver.number)">
-                      Update
-                    </button>
+                      <button class="btn btn-sm btn-outline-info"
+                              (click)="update(racingDriver.number)">
+                        Update
+                      </button>
+                    </div>
                   </td>
                 </tr>
               }

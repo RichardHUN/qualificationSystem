@@ -180,3 +180,11 @@ POST /api/track-times
   }
 }
 ```
+
+## Security (Authentication & Authorization)
+- External API access requires HTTP Basic authentication (default admin/admin123); the Angular frontend is allowed to use the API from the app origin.
+- Static resources and same-origin requests are permitted; other requests must authenticate.
+
+## Frontend integration
+- The Angular app is built into `src/main/resources/static/` and served under the context path `/qualificationSystem/`.
+- Rebuild the frontend in `qualificationSystem-ng` and run `mvnw.cmd clean package` to include the latest build.

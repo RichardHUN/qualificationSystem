@@ -30,15 +30,17 @@
                   <td class="d-none d-md-table-cell">{{racingTrack.length}}km</td>
                   <td class="d-none d-md-table-cell">{{racingTrack.elevation}}m</td>
                   <td>
-                    <button class="btn btn-sm btn-outline-danger"
-                            (click)="delete(racingTrack.city)">
-                      Delete
-                    </button>
+                    <div class="d-flex flex-column flex-md-row gap-2">
+                      <button class="btn btn-sm btn-outline-danger"
+                              (click)="delete(racingTrack.city)">
+                        Delete
+                      </button>
 
-                    <button class="btn btn-sm btn-outline-info"
-                            (click)="update(racingTrack.city)">
-                      Update
-                    </button>
+                      <button class="btn btn-sm btn-outline-info ms-2"
+                              (click)="update(racingTrack.city)">
+                        Update
+                      </button>
+                    </div>
                   </td>
                 </tr>
               }

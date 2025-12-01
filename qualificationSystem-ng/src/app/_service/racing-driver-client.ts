@@ -9,7 +9,7 @@ import {catchError, map} from 'rxjs/operators';
 })
 export class RacingDriverClient {
   private readonly rootUrl: string =
-    'http://localhost:8084/api/racing-drivers';
+    'api/racing-drivers';
 
   constructor(
     private http: HttpClient

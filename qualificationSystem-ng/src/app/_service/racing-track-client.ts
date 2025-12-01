@@ -9,7 +9,7 @@ import {catchError, map} from 'rxjs/operators';
 })
 export class RacingTrackClient {
   private readonly rootUrl: string =
-    'http://localhost:8084/api/racing-tracks';
+    'api/racing-tracks';
 
   constructor(
     private http: HttpClient
