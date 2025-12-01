@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RacingDriver} from '../../_model/racing-driver';
 import {RacingDriverClient} from '../../_service/racing-driver-client';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-racing-driver-list-component',
@@ -17,7 +17,8 @@ export class RacingDriverListComponent
   protected racingDrivers!: RacingDriver[];
 
   constructor(
-    private client: RacingDriverClient
+    private client: RacingDriverClient,
+    private router: Router
   ) {
   }
 
@@ -37,6 +38,11 @@ export class RacingDriverListComponent
       .subscribe(response => {
         this.ngOnInit();
       })
+  }
+
+  protected update(number: number): void {
+    this.router
+      .navigate([`/racing-driver/${number}`]);
   }
 
 }

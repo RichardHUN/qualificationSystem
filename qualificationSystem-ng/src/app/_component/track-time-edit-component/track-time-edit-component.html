@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-2">
+        <div class="card-header text-bg-primary">
+          {{trackTimeExists ? 'Update' : 'Create' }}
+        </div>
+        <div class="card-body">
+          <div class="form-floating">
+            <input class="form-control" id="id"
+                   [(ngModel)]="trackTime.id"
+                   (ngModelChange)="checkTrackTimeExists($event)"
+                   [readonly]="true">
+            <label for="id">Track Time's id</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control"
+                   id="time"
+                   [(ngModel)]="trackTime.time">
+            <label for="time">Track Time's time</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="recordedAt"
+                   [(ngModel)]="trackTime.recordedAt"
+                   [readOnly]="true">
+            <label for="recordedAt">Track Time's recorded at</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="driver"
+                   type="number"
+                   [(ngModel)]="trackTime.driver.number">
+            <label for="driver">Track Time's driver</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control" id="track"
+                   [(ngModel)]="trackTime.track.city">
+            <label for="track">Track Time's track</label>
+          </div>
+
+          <div class="mt-2">
+            @if (!trackTimeExists) {
+              <button class="btn btn-outline-primary w-100"  (click)="create()">
+                Create new Track Time
+              </button>
+            } @else {
+              <button class="btn btn-outline-primary w-100"  (click)="update()">
+                Save Track Time
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button #openUpdateSuccessModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#updateSuccessModal">
+  Launch update success modal
+</button>
+
+<div class="modal fade" id="updateSuccessModal" tabindex="-1" aria-labelledby="updateSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-success m-0">
+        <h1 class="modal-title fs-5" id="updateSuccessModalLabel">Updated successfully!</h1>
+        <p>
+          Track Time was updated successfully!
+        </p>
+        <button #closeUpdateSuccessModal type="button" class="btn btn-success btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button #openCreateSuccessModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#createSuccessModal">
+  Launch create success modal
+</button>
+
+<div class="modal fade" id="createSuccessModal" tabindex="-1" aria-labelledby="createSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-success m-0">
+        <h1 class="modal-title fs-5" id="createSuccessModalLabel">Created successfully!</h1>
+        <p>
+          Track Time was created successfully!
+        </p>
+        <button #closeCreateSuccessModal type="button" class="btn btn-success btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button #openCreateErrorModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#createErrorModal">
+  Launch error modal
+</button>
+
+<div class="modal fade" id="createErrorModal" tabindex="-1" aria-labelledby="createErrorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-danger m-0">
+        <h1 class="modal-title fs-5" id="createErrorModalLabel">Error!</h1>
+        <p>
+          Error occurred while creating Track Time!
+        </p>
+        <button #closeCreateErrorModal type="button" class="btn btn-danger btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

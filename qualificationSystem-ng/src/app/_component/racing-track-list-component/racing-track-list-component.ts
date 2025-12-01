@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RacingTrack} from '../../_model/racing-track';
 import {RacingTrackClient} from '../../_service/racing-track-client';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-racing-track-list-component',
@@ -16,7 +16,8 @@ export class RacingTrackListComponent implements OnInit {
   protected racingTracks!: RacingTrack[];
 
   constructor(
-    private client: RacingTrackClient
+    private client: RacingTrackClient,
+    private router: Router
   ) {
   }
 
@@ -36,6 +37,11 @@ export class RacingTrackListComponent implements OnInit {
       .subscribe(response => {
         this.ngOnInit();
       })
+  }
+
+  protected update(city: string): void {
+    this.router
+      .navigate(['/racing-tracks', city]);
   }
 
 }

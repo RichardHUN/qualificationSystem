@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-2">
+        <div class="card-header text-bg-primary
+            d-flex flex-row">
+          <i class="bi bi-car-front-fill me-1"></i>
+          Track Times
+          <i class="bi bi-clock-fill ms-1"></i>
+        </div>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-striped table-hover m-0">
+            <thead class="table-dark">
+            <tr>
+              <th class="d-none d-sm-table-cell">ID</th>
+              <th>Time</th>
+              <th class="d-none d-md-table-cell">Recorded at</th>
+              <th>Driver</th>
+              <th>Track</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+              @for (trackTime of trackTimes; track trackTime.id) {
+                <tr>
+                  <td class="d-none d-sm-table-cell">{{trackTime.id}}</td>
+                  <td>{{trackTime.time}}</td>
+                  <td class="d-none d-md-table-cell">{{trackTime.recordedAt | date:'medium'}}</td>
+                  <td>{{trackTime.driver.name}}</td>
+                  <td>{{trackTime.track.name}}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-danger"
+                            (click)="delete(trackTime.id)">
+                      Delete
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-warning"
+                            (click)="penalty(trackTime.id)">
+                      Penalty
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-info"
+                            (click)="update(trackTime.id)">
+                      Update
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <a class="btn btn-outline-primary float-end"
+             [routerLink]="['/track-times', 'create']">Create new Track Time</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

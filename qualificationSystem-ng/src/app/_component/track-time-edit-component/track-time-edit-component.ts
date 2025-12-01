@@ -1,23 +1,25 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {TrackTime} from '../../_model/track-time';
+import {HttpClient} from '@angular/common/http';
+import {TrackTimeClient} from '../../_service/track-time-client';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RacingTrack} from '../../_model/racing-track';
+import {JsonPipe} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {delay, tap} from 'rxjs';
-import {RacingTrackClient} from '../../_service/racing-track-client';
 
 @Component({
-  selector: 'app-racing-track-edit-component',
+  selector: 'app-track-time-edit-component',
   imports: [
     FormsModule
   ],
-  templateUrl: './racing-track-edit-component.html',
-  styleUrl: './racing-track-edit-component.css',
+  templateUrl: './track-time-edit-component.html',
+  styleUrl: './track-time-edit-component.css',
 })
-export class RacingTrackEditComponent implements OnInit {
+export class TrackTimeEditComponent implements OnInit {
 
-  protected racingTrack!: RacingTrack;
+  protected trackTime!: TrackTime;
 
-  protected trackExists: boolean = false;
+  protected trackTimeExists: boolean = false;
 
   @ViewChild('openUpdateSuccessModal')
   protected openUpdateSuccessModal!: ElementRef;
@@ -38,44 +40,56 @@ export class RacingTrackEditComponent implements OnInit {
   protected closeCreateErrorModal!: ElementRef;
 
   constructor(
-    private client: RacingTrackClient,
+    private client: TrackTimeClient,
     private route: ActivatedRoute,
     private router: Router,
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.paramMap
       .subscribe(params => {
-        if(params.get('city') == 'create'){
-          this.racingTrack = {} as RacingTrack;
-          this.trackExists = false;
+        if(params.get('id') == 'create'){
+          this.trackTime = {
+            driver: {},
+            track: {}
+          } as TrackTime;
+          this.trackTimeExists = false;
         } else {
-          const trackCity = params.get('city')!;
+          const trackTimeId = params.get('id')!;
           this.client
-            .get(trackCity)
-            .subscribe(racingTrack => {
-              this.racingTrack = racingTrack;
-              this.checkTrackExists(trackCity);
+            .get(trackTimeId)
+            .subscribe(trackTime => {
+              this.trackTime = trackTime;
+              this.checkTrackTimeExists(trackTimeId);
             })
         }
       })
   }
 
+  protected checkTrackTimeExists(id: string): void {
+    if(!id){
+      this.trackTimeExists = false;
+      return;
+    }
+    this.client.exists(id)
+      .subscribe(exists => this.trackTimeExists = exists);
+  }
+
   protected create(): void {
     this.client
-      .create(this.racingTrack)
+      .create(this.trackTime)
       .pipe(
-        tap(response => this.racingTrack = response),
+        tap(response => this.trackTime = response),
         tap(() => this.openCreateSuccessModal.nativeElement.click()),
         delay(5000),
         tap(() => this.closeCreateSuccessModal.nativeElement.click())
       )
       .subscribe({
-        next: racingTrack => {
-          this.router.navigate(['racing-tracks'])
+        next: trackTime =>{
+          this.router.navigate(['track-times'])
         },
-        error: () => {
+        error: err => {
           this.openCreateErrorModal.nativeElement.click();
           delay(5000);
           this.closeCreateErrorModal.nativeElement.click();
@@ -85,23 +99,14 @@ export class RacingTrackEditComponent implements OnInit {
 
   protected update(): void {
     this.client
-      .update(this.racingTrack)
+      .update(this.trackTime)
       .pipe(
-        tap(response => this.racingTrack = response),
+        tap(response => this.trackTime = response),
         tap(() => this.openUpdateSuccessModal.nativeElement.click()),
         delay(5000),
         tap(() => this.closeUpdateSuccessModal.nativeElement.click())
       )
       .subscribe();
-  }
-
-  protected checkTrackExists(city: string): void {
-    if(!city) {
-      this.trackExists = false;
-      return;
-    }
-    this.client.existsByCity(city)
-      .subscribe(exists => this.trackExists = exists);
   }
 
 }

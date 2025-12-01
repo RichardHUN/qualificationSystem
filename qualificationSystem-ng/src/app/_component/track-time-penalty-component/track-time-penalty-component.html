@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-2">
+        <div class="card-header text-bg-primary">
+          Penalty
+        </div>
+        <div class="card-body">
+          <div class="form-floating">
+            <input class="form-control" id="id"
+                   [(ngModel)]="trackTime.id"
+                    [readOnly]="true">
+            <label for="id">Track Time's id</label>
+          </div>
+
+          <div class="form-floating mt-2">
+            <input class="form-control"
+                   id="penalty"
+                   type="number"
+                   [(ngModel)]="penalty"
+                   (ngModelChange)="updatePenalty($event)">
+            <label for="penalty">Track Time's penalty</label>
+          </div>
+
+          <div class="mt-2">
+              <button class="btn btn-outline-primary w-100"  (click)="addPenalty()">
+                Add penalty
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button #openUpdateSuccessModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#updateSuccessModal">
+  Launch update success modal
+</button>
+
+<div class="modal fade" id="updateSuccessModal" tabindex="-1" aria-labelledby="updateSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-success m-0">
+        <h1 class="modal-title fs-5" id="updateSuccessModalLabel">Updated successfully!</h1>
+        <p>
+          Penalty was given successfully!
+        </p>
+        <button #closeUpdateSuccessModal type="button" class="btn btn-success btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button #openCreateErrorModal type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#createErrorModal">
+  Launch error modal
+</button>
+
+<div class="modal fade" id="createErrorModal" tabindex="-1" aria-labelledby="createErrorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert alert-danger m-0">
+        <h1 class="modal-title fs-5" id="createErrorModalLabel">Error!</h1>
+        <p>
+          Error occurred while giving penalty!
+        </p>
+        <button #closeCreateErrorModal type="button" class="btn btn-danger btn-sm w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
