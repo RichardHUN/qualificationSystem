@@ -24,58 +24,33 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Allow requests from Angular frontend (same origin)
+                        // Allow all requests from Angular frontend (localhost:8084)
                         .requestMatchers(this::isFromAngularFrontend).permitAll()
                         // Require authentication for all other requests
-                        .anyRequest().authenticated()
+                        //.anyRequest().authenticated()
+                        //demo
+                        .anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults());
+                //demo
+                ;//.httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 
     /**
-     * Checks if the request is from the Angular frontend by validating:
-     * 1. API endpoints (allow /api/* for Angular service calls)
-     * 2. Static resources (JS, CSS, HTML, fonts, icons)
-     * 3. Navigation routes (paths without file extensions - for Angular routing)
-     * 4. Referer header (for navigation within the app)
-     * 5. Origin header (for AJAX requests)
+     * Checks if the request is from the Angular frontend running on localhost:8084
      */
     private boolean isFromAngularFrontend(HttpServletRequest request) {
-        String referer = request.getHeader("Referer");
         String origin = request.getHeader("Origin");
-        String requestUri = request.getRequestURI();
+        String referer = request.getHeader("Referer");
 
-        // Allow API endpoints - Angular services may use /api/* or /qualificationSystem/api/*
-        if (requestUri.startsWith("/api/") || requestUri.startsWith("/qualificationSystem/api/")) {
-            return true;
-        }
-
-        // Allow root path and trailing slash
-        if (requestUri.equals("/qualificationSystem") || requestUri.equals("/qualificationSystem/")) {
-            return true;
-        }
-
-        // Allow static resources with file extensions
-        if (requestUri.matches(".*\\.(html|js|css|ico|woff|woff2|ttf|svg|png|jpg|jpeg|gif|map)$")) {
-            return true;
-        }
-
-        // Allow navigation routes (paths without file extensions - for Angular client-side routing)
-        // This allows /qualificationSystem/drivers, /qualificationSystem/tracks, etc.
-        String path = requestUri.substring(requestUri.lastIndexOf("/") + 1);
-        if (!path.contains(".")) {
-            return true;
-        }
-
-        // Allow requests with valid referer from same origin
-        if (referer != null && referer.startsWith("http://localhost:8084/")) {
-            return true;
-        }
-
-        // Allow requests with valid origin from same origin
+        // Check if Origin header matches frontend URL
         if (origin != null && origin.equals("http://localhost:8084")) {
+            return true;
+        }
+
+        // Check if Referer header starts with frontend URL
+        if (referer != null && referer.startsWith("http://localhost:8084/")) {
             return true;
         }
 

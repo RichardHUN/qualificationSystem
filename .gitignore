@@ -1,0 +1,62 @@
+# Angular Artifacts
+qualificationSystem/src/main/resources/static/
+
+# Spring Backend (qualificationSystem)
+qualificationSystem/target/
+qualificationSystem/.mvn/
+qualificationSystem/mvnw
+qualificationSystem/mvnw.cmd
+qualificationSystem/.idea/
+qualificationSystem/*.iml
+qualificationSystem/*.iws
+qualificationSystem/out/
+qualificationSystem/.settings/
+qualificationSystem/.classpath
+qualificationSystem/.project
+qualificationSystem/bin/
+qualificationSystem/build/
+qualificationSystem/.gradle/
+qualificationSystem/gradle/
+qualificationSystem/gradlew
+qualificationSystem/gradlew.bat
+qualificationSystem/.DS_Store
+qualificationSystem/temp/
+qualificationSystem/tmp/
+
+# Angular Frontend (qualificationSystem-ng)
+qualificationSystem-ng/node_modules/
+qualificationSystem-ng/dist/
+qualificationSystem-ng/.angular/
+qualificationSystem-ng/.sass-cache/
+qualificationSystem-ng/coverage/
+qualificationSystem-ng/.nyc_output/
+qualificationSystem-ng/.npm/
+qualificationSystem-ng/.eslintcache
+qualificationSystem-ng/.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.bak
+*.tmp
+*.temp
