@@ -3,7 +3,7 @@ import {RacingDriver} from '../../_model/racing-driver';
 import {RacingDriverClient} from '../../_service/racing-driver-client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {delay, tap} from 'rxjs';
+import {tap} from 'rxjs';
 
 @Component({
   selector: 'app-racing-driver-edit-component',
@@ -68,18 +68,32 @@ export class RacingDriverEditComponent
       .create(this.racingDriver)
       .pipe(
         tap(response => this.racingDriver = response),
-        tap(() => this.openCreateSuccessModal.nativeElement.click()),
-        delay(5000),
-        tap(() => this.closeCreateSuccessModal.nativeElement.click())
+        tap(() => this.openCreateSuccessModal.nativeElement.click())
       )
       .subscribe({
-        next: racingDriver => {
-          this.router.navigate(['racing-drivers'])
+        next: () => {
+          // ensure navigation happens after 3s even if user closes the modal early
+          let timeoutId: any;
+          const closeEl = this.closeCreateSuccessModal.nativeElement;
+          const onCloseClick = () => {
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+            }
+            closeEl.removeEventListener('click', onCloseClick);
+            this.router.navigate(['racing-drivers']);
+          };
+          closeEl.addEventListener('click', onCloseClick);
+          timeoutId = window.setTimeout(() => {
+            closeEl.removeEventListener('click', onCloseClick);
+            try { this.closeCreateSuccessModal.nativeElement.click(); } catch (e) {}
+            this.router.navigate(['racing-drivers']);
+          }, 1500);
         },
         error: () => {
           this.openCreateErrorModal.nativeElement.click();
-          delay(5000);
-          this.closeCreateErrorModal.nativeElement.click();
+          window.setTimeout(() => {
+            try { this.closeCreateErrorModal.nativeElement.click(); } catch (e) {}
+          }, 1500);
         }
       })
   }
@@ -89,11 +103,33 @@ export class RacingDriverEditComponent
       .update(this.racingDriver)
       .pipe(
         tap(response => this.racingDriver = response),
-        tap(() => this.openUpdateSuccessModal.nativeElement.click()),
-        delay(5000),
-        tap(() => this.closeUpdateSuccessModal.nativeElement.click())
+        tap(() => this.openUpdateSuccessModal.nativeElement.click())
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          let timeoutId: any;
+          const closeEl = this.closeUpdateSuccessModal.nativeElement;
+          const onCloseClick = () => {
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+            }
+            closeEl.removeEventListener('click', onCloseClick);
+            this.router.navigate(['racing-drivers']);
+          };
+          closeEl.addEventListener('click', onCloseClick);
+          timeoutId = window.setTimeout(() => {
+            closeEl.removeEventListener('click', onCloseClick);
+            try { this.closeUpdateSuccessModal.nativeElement.click(); } catch (e) {}
+            this.router.navigate(['racing-drivers']);
+          }, 1500);
+        },
+        error: () => {
+          this.openCreateErrorModal.nativeElement.click();
+          window.setTimeout(() => {
+            try { this.closeCreateErrorModal.nativeElement.click(); } catch (e) {}
+          }, 1500);
+        }
+      });
   }
 
   protected checkDriverExists(number: number): void {

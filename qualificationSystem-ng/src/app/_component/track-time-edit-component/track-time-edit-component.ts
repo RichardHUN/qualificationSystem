@@ -1,11 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TrackTime} from '../../_model/track-time';
-import {HttpClient} from '@angular/common/http';
 import {TrackTimeClient} from '../../_service/track-time-client';
 import {ActivatedRoute, Router} from '@angular/router';
-import {JsonPipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {delay, tap} from 'rxjs';
+import {tap} from 'rxjs';
 
 @Component({
   selector: 'app-track-time-edit-component',
@@ -81,18 +79,29 @@ export class TrackTimeEditComponent implements OnInit {
       .create(this.trackTime)
       .pipe(
         tap(response => this.trackTime = response),
-        tap(() => this.openCreateSuccessModal.nativeElement.click()),
-        delay(5000),
-        tap(() => this.closeCreateSuccessModal.nativeElement.click())
+        tap(() => this.openCreateSuccessModal.nativeElement.click())
       )
       .subscribe({
-        next: trackTime =>{
-          this.router.navigate(['track-times'])
+        next: () =>{
+          let timeoutId: any;
+          const closeEl = this.closeCreateSuccessModal.nativeElement;
+          const onCloseClick = () => {
+            if (timeoutId) { clearTimeout(timeoutId); }
+            closeEl.removeEventListener('click', onCloseClick);
+            this.router.navigate(['track-times']);
+          };
+          closeEl.addEventListener('click', onCloseClick);
+          timeoutId = window.setTimeout(() => {
+            closeEl.removeEventListener('click', onCloseClick);
+            try { this.closeCreateSuccessModal.nativeElement.click(); } catch (e) {}
+            this.router.navigate(['track-times']);
+          }, 1500);
         },
-        error: err => {
+        error: () => {
           this.openCreateErrorModal.nativeElement.click();
-          delay(5000);
-          this.closeCreateErrorModal.nativeElement.click();
+          window.setTimeout(() => {
+            try { this.closeCreateErrorModal.nativeElement.click(); } catch (e) {}
+          }, 1500);
         }
       })
   }
@@ -102,11 +111,31 @@ export class TrackTimeEditComponent implements OnInit {
       .update(this.trackTime)
       .pipe(
         tap(response => this.trackTime = response),
-        tap(() => this.openUpdateSuccessModal.nativeElement.click()),
-        delay(5000),
-        tap(() => this.closeUpdateSuccessModal.nativeElement.click())
+        tap(() => this.openUpdateSuccessModal.nativeElement.click())
       )
-      .subscribe();
+      .subscribe({
+        next: () =>{
+          let timeoutId: any;
+          const closeEl = this.closeUpdateSuccessModal.nativeElement;
+          const onCloseClick = () => {
+            if (timeoutId) { clearTimeout(timeoutId); }
+            closeEl.removeEventListener('click', onCloseClick);
+            this.router.navigate(['track-times']);
+          };
+          closeEl.addEventListener('click', onCloseClick);
+          timeoutId = window.setTimeout(() => {
+            closeEl.removeEventListener('click', onCloseClick);
+            try { this.closeUpdateSuccessModal.nativeElement.click(); } catch (e) {}
+            this.router.navigate(['track-times']);
+          }, 1500);
+        },
+        error: () => {
+          this.openCreateErrorModal.nativeElement.click();
+          window.setTimeout(() => {
+            try { this.closeCreateErrorModal.nativeElement.click(); } catch (e) {}
+          }, 1500);
+        }
+      });
   }
 
 }

@@ -1,9 +1,12 @@
 package hu.unideb.inf.qualificationSystem.service;
 
+import hu.unideb.inf.qualificationSystem.data.TrackTimeDTO;
 import hu.unideb.inf.qualificationSystem.data.TrackTimeDataReader;
 import hu.unideb.inf.qualificationSystem.model.RacingDriver;
 import hu.unideb.inf.qualificationSystem.model.RacingTrack;
 import hu.unideb.inf.qualificationSystem.model.TrackTime;
+import hu.unideb.inf.qualificationSystem.repository.RacingDriverRepository;
+import hu.unideb.inf.qualificationSystem.repository.RacingTrackRepository;
 import hu.unideb.inf.qualificationSystem.repository.TrackTimeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,9 @@ import java.util.stream.StreamSupport;
 @Service
 @RequiredArgsConstructor
 public class TrackTimeServiceImpl implements TrackTimeService {
+
+    private final RacingDriverRepository driverRepository;
+    private final RacingTrackRepository trackRepository;
 
     private final TrackTimeRepository repository;
     private final RacingDriverService driverService;
@@ -49,6 +55,24 @@ public class TrackTimeServiceImpl implements TrackTimeService {
                 .recordedAt(LocalDateTime.now())
                 .driver(driver)
                 .track(track)
+                .build();
+
+        return repository.save(toSave);
+    }
+
+    @Override
+    public TrackTime create(TrackTimeDTO trackTimeDTO) {
+        RacingDriver driver = driverService.getById(trackTimeDTO.getDriver())
+                .orElseThrow(() -> new RuntimeException("Driver not found with number: " + trackTimeDTO.getDriver()));
+
+        RacingTrack track = trackService.getById(trackTimeDTO.getTrack())
+                .orElseThrow(() -> new RuntimeException("Track not found with city: " + trackTimeDTO.getTrack()));
+
+        TrackTime toSave = TrackTime.builder()
+                .driver(driver)
+                .track(track)
+                .recordedAt(LocalDateTime.now())
+                .time(trackTimeDTO.getTime())
                 .build();
 
         return repository.save(toSave);
@@ -85,6 +109,29 @@ public class TrackTimeServiceImpl implements TrackTimeService {
             return repository.save(trackTime);
         }
         throw new RuntimeException("TrackTime not found with id: " + id);
+    }
+
+    @Override
+    public TrackTime updateWithDTO(UUID id, TrackTimeDTO trackTime) {
+        Optional<TrackTime> existing = repository.findById(id);
+        System.out.println(existing.orElseThrow());
+        Optional<RacingDriver> driver = driverRepository.findById(trackTime.getDriver());
+        System.out.println(driver.orElseThrow());
+        Optional<RacingTrack> track = trackRepository.findById(trackTime.getTrack());
+        System.out.println(track.orElseThrow());
+        if (existing.isPresent()) {
+            existing.get()
+                    .setDriver(
+                            driver.orElseGet(() -> existing.get().getDriver())
+                    );
+            existing.get().setTrack(
+                    track.orElseGet(() -> existing.get().getTrack())
+            );
+            existing.get().setTime(trackTime.getTime());
+            existing.get().setRecordedAt(trackTime.getRecordedAt());
+            return repository.save(existing.get());
+        }
+        throw new RuntimeException("TrackTime update failed");
     }
 
     @Override

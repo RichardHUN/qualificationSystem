@@ -3,7 +3,6 @@ import {FormsModule} from '@angular/forms';
 import {TrackTimeClient} from '../../_service/track-time-client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TrackTime} from '../../_model/track-time';
-import {delay} from 'rxjs';
 
 @Component({
   selector: 'app-track-time-penalty-component',
@@ -53,7 +52,6 @@ export class TrackTimePenaltyComponent implements OnInit {
   }
 
   protected updatePenalty(penalty: number): void {
-    console.log(penalty);
     this.penalty = penalty;
   }
 
@@ -61,13 +59,34 @@ export class TrackTimePenaltyComponent implements OnInit {
     this.client
       .penalty(this.trackTime.id, this.penalty)
       .subscribe({
-        next: trackTime => {
-          this.router.navigate(['/track-times']);
+        next: () => {
+          // open success modal, close after 3s and navigate; if user closes early navigate immediately
+          this.openUpdateSuccessModal.nativeElement.click();
+          let timeoutId: any;
+          const closeEl = this.closeUpdateSuccessModal.nativeElement;
+          const onCloseClick = () => {
+            if (timeoutId) { clearTimeout(timeoutId); }
+            closeEl.removeEventListener('click', onCloseClick);
+            this.router.navigate(['/track-times']);
+          };
+          closeEl.addEventListener('click', onCloseClick);
+          timeoutId = window.setTimeout(() => {
+            closeEl.removeEventListener('click', onCloseClick);
+            try { this.closeUpdateSuccessModal.nativeElement.click(); } catch (e) {}
+            this.router.navigate(['/track-times']);
+          }, 1500);
         },
         error: () => {
           this.openCreateErrorModal.nativeElement.click();
-          delay(5000);
-          this.closeCreateErrorModal.nativeElement.click();
+          const closeEl = this.closeCreateErrorModal.nativeElement;
+          const onCloseClick = () => {
+            closeEl.removeEventListener('click', onCloseClick);
+          };
+          closeEl.addEventListener('click', onCloseClick);
+          window.setTimeout(() => {
+            closeEl.removeEventListener('click', onCloseClick);
+            try { this.closeCreateErrorModal.nativeElement.click(); } catch (e) {}
+          }, 1500);
         }
       });
   }

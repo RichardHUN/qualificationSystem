@@ -13,10 +13,10 @@
             <thead class="table-dark">
             <tr>
               <th>Name</th>
-              <th>Country</th>
-              <th>City</th>
-              <th class="d-none d-md-table-cell">Length</th>
-              <th class="d-none d-md-table-cell">Elevation</th>
+              <th class="d-none d-md-table-cell">Country</th>
+              <th class="d-none d-sm-table-cell">City</th>
+              <th class="d-none d-lg-table-cell">Length</th>
+              <th class="d-none d-xl-table-cell">Elevation</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -25,10 +25,10 @@
               @for (racingTrack of racingTracks; track racingTrack.city) {
                 <tr>
                   <td>{{racingTrack.name}}</td>
-                  <td>{{racingTrack.country}}</td>
-                  <td>{{racingTrack.city}}</td>
-                  <td class="d-none d-md-table-cell">{{racingTrack.length}}km</td>
-                  <td class="d-none d-md-table-cell">{{racingTrack.elevation}}m</td>
+                  <td class="d-none d-md-table-cell">{{racingTrack.country}}</td>
+                  <td class="d-none d-sm-table-cell">{{racingTrack.city}}</td>
+                  <td class="d-none d-lg-table-cell">{{racingTrack.length}}km</td>
+                  <td class="d-none d-xl-table-cell">{{racingTrack.elevation}}m</td>
                   <td>
                     <div class="d-flex flex-column flex-md-row gap-2">
                       <button class="btn btn-sm btn-outline-danger"

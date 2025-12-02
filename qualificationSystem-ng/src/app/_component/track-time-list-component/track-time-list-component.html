@@ -12,7 +12,7 @@
           <table class="table table-striped table-hover m-0">
             <thead class="table-dark">
             <tr>
-              <th class="d-none d-sm-table-cell">ID</th>
+              <th class="d-none d-lg-table-cell">ID</th>
               <th>Time</th>
               <th class="d-none d-md-table-cell">Recorded at</th>
               <th>Driver</th>
@@ -24,7 +24,7 @@
             <tbody>
               @for (trackTime of trackTimes; track trackTime.id) {
                 <tr>
-                  <td class="d-none d-sm-table-cell">{{trackTime.id}}</td>
+                  <td class="d-none d-lg-table-cell">{{trackTime.id}}</td>
                   <td>{{trackTime.time}}</td>
                   <td class="d-none d-md-table-cell">{{trackTime.recordedAt | date:'medium'}}</td>
                   <td>{{trackTime.driver.name}}</td>

@@ -21,8 +21,11 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
-              }
+                "input": "public",
+                "ignore": ["favicon.ico"]
+              },
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.css",
@@ -35,6 +38,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/qualificationSystem/",
               "budgets": [
                 {
                   "type": "initial",
@@ -86,7 +90,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "ignore": ["favicon.ico"]
               }
             ],
             "styles": [

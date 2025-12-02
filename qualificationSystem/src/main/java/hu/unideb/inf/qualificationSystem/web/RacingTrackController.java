@@ -20,7 +20,7 @@ public interface RacingTrackController {
     ResponseEntity<?> getAllByParams(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String country,
-            @RequestParam String city);
+            @RequestParam(required = false) String city);
 
     @PutMapping("/{city}")
     ResponseEntity<RacingTrack> update(
