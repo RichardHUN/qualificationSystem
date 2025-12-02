@@ -1,6 +1,6 @@
 # F1 Qualification System
 
-A Spring Boot REST API application for tracking and managing Formula 1 racing driver lap times across various racing tracks.
+A Spring Boot REST API application with an Angular frontend for tracking and managing Formula 1 racing driver lap times across various racing tracks.
 
 ## 📋 Project Scope
 
@@ -12,18 +12,28 @@ This application records track times set by racing drivers on racing tracks, ena
 
 ## 🏗️ Architecture
 
-The project follows a **layered architecture** with proper separation of concerns:
+The project follows a **layered architecture** with proper separation of concerns. The system consists of an Angular Single Page Application (served as static assets) that communicates with the Spring Boot REST API. The REST API implements controllers -> services -> repositories and uses an H2 in-memory database for storage.
+
+The frontend is implemented as two layers: a Presentation layer (Angular components / views) and a Client Services layer (Angular services that call the REST API).
+
+Frontend and backend relationship (high-level):
 
 ```
-┌─────────────────┐
-│   Controllers   │  REST endpoints
-├─────────────────┤
-│    Services     │  Business logic
-├─────────────────┤
-│  Repositories   │  Data access
-├─────────────────┤
-│   H2 Database   │  In-memory storage
-└─────────────────┘
++----------------------+          HTTP/REST           +---------------------------+
+|      Frontend        | <--------------------------> |   Spring Boot Backend     |
+|     (Angular SPA)    |                              |                           |
+|                      |                              |  ┌─────────────────────┐  |
+|  ┌Presentation────┐  |                              |  │   Controllers (API) │  |
+|  │ Components / UI│  |                              |  ├─────────────────────┤  |
+|  └────────────────┘  |                              |  │     Services        │  |
+|  ┌Client Services─┐  |                              |  ├─────────────────────┤  |
+|  │ HTTP/Api calls │  |                              |  │   Repositories      │  |
+|  └────────────────┘  |                              |  ├─────────────────────┤  |
++----------------------+                              |  │     H2 Database     │  |
+                                                      |  └─────────────────────┘  |
+                                                      +---------------------------+
+
+(Angular is built into static files and served by Spring Boot under the application's context path.)
 ```
 
 ## 🚀 Technologies
@@ -35,6 +45,9 @@ The project follows a **layered architecture** with proper separation of concern
 - **Lombok**
 - **Jackson** (JSON processing)
 - **Maven**
+- **Angular 20.x** (SPA frontend)
+- **Node.js & npm** (for building the Angular app)
+- **Bootstrap** (styling)
 
 ## 📦 Domain Models
 
@@ -103,6 +116,10 @@ cd web-development-2025-RichardHUN/qualificationSystem
 ### Prerequisites
 - **Java 21** (or compatible JDK like Java 17+)
 - **Maven** (optional - Maven wrapper included)
+- **Node.js** (recommended v18+)
+- **npm** (bundled with Node.js) - required if you want to rebuild the Angular frontend
+
+> Note: Node.js and npm are only necessary if you want to rebuild or modify the Angular frontend located in the `qualificationSystem-ng` folder. The backend JAR already includes a built frontend under `src/main/resources/static` when packaged.
 
 ### Method 1: Using Maven Wrapper (Recommended)
 
@@ -139,8 +156,8 @@ java -jar target/qualificationSystem-0.0.1-SNAPSHOT.jar
 
 ---
 
-**Application URL:** `http://localhost:8084`  
-**H2 Console:** `http://localhost:8084/db` (username: `asd`, password: `asd`)
+**Application URL:** `http://localhost:8084/qualificationSystem/`  
+**H2 Console:** `http://localhost:8084/qualificationSystem/db` (username: `asd`, password: `asd`)
 
 
 ## 📝 Example Requests
@@ -186,5 +203,51 @@ POST /api/track-times
 - Static resources and same-origin requests are permitted; other requests must authenticate.
 
 ## Frontend integration
-- The Angular app is built into `src/main/resources/static/` and served under the context path `/qualificationSystem/`.
-- Rebuild the frontend in `qualificationSystem-ng` and run `mvnw.cmd clean package` to include the latest build.
+- The Angular app (source in `qualificationSystem-ng`) is built into `src/main/resources/static/` and served under the application's context path `/qualificationSystem/` so visiting `http://localhost:8084/qualificationSystem/` loads the SPA.
+
+How to rebuild and include the frontend (recommended workflow):
+1. Open a terminal and go to the Angular project:
+
+```bash
+cd qualificationSystem-ng
+```
+
+2. Install dependencies (if needed):
+
+```bash
+npm install
+```
+
+3. Build the production assets:
+
+```bash
+npm run build
+```
+
+The compiled files will be written to `dist/qualificationSystem-ng/` (Angular default). Copy the production build into the backend static resources so Spring Boot serves them:
+
+```bash
+# from repository root
+rm -rf qualificationSystem/src/main/resources/static/* ; mkdir -p qualificationSystem/src/main/resources/static
+cp -r qualificationSystem-ng/dist/qualificationSystem-ng/* qualificationSystem/src/main/resources/static/
+```
+
+### Easier method: build & package (single step)
+
+> Alternatively: running the Maven package phase from the backend (`mvnw.cmd clean package` or `mvn clean package`) will also run the frontend build (via the frontend-maven-plugin) and copy the generated `dist` output into `qualificationSystem/src/main/resources/static/` automatically as part of the build.
+
+4. Rebuild the backend JAR to package the updated frontend:
+
+```bash
+mvnw.cmd clean package
+```
+
+5. Run the application and open:
+
+```
+http://localhost:8084/qualificationSystem/
+```
+
+Notes:
+- The Angular app calls the backend REST API on the same origin (relative paths such as `/api/...`), so CORS is not required for the packaged app. During development (when running `ng serve`) a `proxy.conf.json` is included to forward API calls to the backend.
+- The backend context-path (`/qualificationSystem`) is configured in `src/main/resources/application.yaml`. If you change it, update the frontend base href or the copy location accordingly.
