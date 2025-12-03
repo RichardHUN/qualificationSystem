@@ -1,0 +1,35 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Run Checkstyle
+        working-directory: ./qualificationSystem
+        run: mvn checkstyle:check
+
+      - name: Run Tests
+        working-directory: ./qualificationSystem
+        run: mvn test -Dskip.npm=true
+
+      - name: Build and Package
+        working-directory: ./qualificationSystem
+        run: mvn clean package -DskipTests
+
+

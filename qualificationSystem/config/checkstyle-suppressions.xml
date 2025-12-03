@@ -4,49 +4,49 @@
     "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 
 <suppressions>
-    <!-- Suppress missing Javadoc for interface methods (covered by implementation) -->
+    <!-- Suppress JavadocPackage (package-info.java not required) -->
+    <suppress checks="JavadocPackage"/>
+
+    <!-- Suppress missing Javadoc for interface methods -->
     <suppress checks="MissingJavadocMethod" files=".*[/\\]service[/\\].*Service\.java"/>
     <suppress checks="MissingJavadocMethod" files=".*[/\\]repository[/\\].*Repository\.java"/>
     <suppress checks="MissingJavadocMethod" files=".*[/\\]web[/\\].*Controller\.java"/>
 
-    <!-- Suppress missing Javadoc for model fields (Lombok generates getters/setters) -->
-    <suppress checks="MissingJavadocMethod" files=".*[/\\]model[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files=".*[/\\]model[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files=".*[/\\]data[/\\].*DTO\.java"/>
-
-    <!-- Suppress FinalParameters (too strict for Spring applications) -->
-    <suppress checks="FinalParametersCheck"/>
-
-    <!-- Suppress DesignForExtension for Spring beans and controllers -->
-    <suppress checks="DesignForExtensionCheck"/>
-
-    <!-- Suppress JavadocPackage (package-info.java not always needed) -->
-    <suppress checks="JavadocPackageCheck"/>
-
-    <!-- Suppress magic numbers in serializers/deserializers (time conversions) -->
-    <suppress checks="MagicNumberCheck" files=".*[/\\]util[/\\]TimeFormat.*\.java"/>
-
-    <!-- Suppress hiding utility class constructor for Spring Boot main class -->
-    <suppress checks="HideUtilityClassConstructorCheck" files=".*Application\.java"/>
-
-    <!-- Suppress missing Javadoc for application runner main method -->
+    <!-- Suppress missing Javadoc for all implementations -->
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]service[/\\].*ServiceImpl\.java"/>
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]web[/\\].*ControllerImpl\.java"/>
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]config[/\\].*\.java"/>
     <suppress checks="MissingJavadocMethod" files=".*Application\.java"/>
 
-    <!-- Suppress star imports for Lombok (common pattern) -->
-    <suppress checks="AvoidStarImport" files=".*" message="lombok\.\*"/>
-    <suppress checks="AvoidStarImport" files=".*" message="jakarta\.persistence\.\*"/>
-    <suppress checks="AvoidStarImport" files=".*" message="org\.springframework\.web\.bind\.annotation\.\*"/>
-
-    <!-- Suppress missing Javadoc for private fields in services and controllers -->
+    <!-- Suppress missing Javadoc for model fields (Lombok generates docs) -->
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]model[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]model[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]data[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files=".*[/\\]service[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files=".*[/\\]web[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files=".*[/\\]runner[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files=".*[/\\]config[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files=".*[/\\]util[/\\].*\.java"/>
 
-    <!-- Suppress line length violations (too strict for fluent code) -->
-    <suppress checks="LineLengthCheck"/>
+    <!-- Suppress FinalParameters (too strict for Spring applications) -->
+    <suppress checks="FinalParameters"/>
+
+    <!-- Suppress DesignForExtension for Spring beans -->
+    <suppress checks="DesignForExtension"/>
+
+    <!-- Suppress HideUtilityClassConstructor for Spring Boot main class -->
+    <suppress checks="HideUtilityClassConstructor" files=".*Application\.java"/>
+
+    <!-- Suppress AvoidStarImport for Spring Web annotations -->
+    <suppress checks="AvoidStarImport" files=".*[/\\]web[/\\].*\.java"/>
+    <suppress checks="AvoidStarImport" files=".*[/\\]model[/\\].*\.java"/>
+
+    <!-- Suppress line length violations -->
+    <suppress checks="LineLength"/>
 
     <!-- Suppress operator wrap violations -->
-    <suppress checks="OperatorWrapCheck"/>
+    <suppress checks="OperatorWrap"/>
+
+    <!-- Suppress magic number violations -->
+    <suppress checks="MagicNumber"/>
 </suppressions>

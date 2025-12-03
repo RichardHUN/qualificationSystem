@@ -29,6 +29,7 @@
 		<server-url>http://localhost:8084</server-url>
 		<final-name>qualificationSystem</final-name>
 		<maven.compiler.release>21</maven.compiler.release>
+		<skip.npm>false</skip.npm>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
@@ -60,6 +61,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -133,6 +139,7 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<arguments>run build -- --configuration=production --base-href=${server-url}/${final-name}/</arguments>
+							<skip>${skip.npm}</skip>
 						</configuration>
 					</execution>
 				</executions>
@@ -148,7 +155,8 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}/src/main/resources/static/</outputDirectory>
+							<skip>${skip.npm}</skip>
+							<outputDirectory>${project.build.directory}/classes/static</outputDirectory>
 							<resources>
 								<resource>
 									<directory>../${project.artifactId}-ng/dist/${project.artifactId}-ng/browser/</directory>
@@ -206,22 +214,19 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>3.2.2</version>
+				<configuration>
+					<!-- Parent configuration applies to all goals -->
+					<configLocation>sun_checks.xml</configLocation>
+					<suppressionsLocation>${project.basedir}/config/checkstyle-suppressions.xml</suppressionsLocation>
+					<consoleOutput>true</consoleOutput>
+				</configuration>
 				<executions>
 					<execution>
 						<id>checkstyle</id>
 						<phase>validate</phase>
 						<goals>
-							<goal>check</goal>
+							<goal>checkstyle</goal>
 						</goals>
-						<configuration>
-							<!-- Use the built-in Sun checks shipped with Checkstyle (no file in the repo) -->
-							<configLocation>sun_checks.xml</configLocation>
-							<suppressionsLocation>config/checkstyle-suppressions.xml</suppressionsLocation>
-							<encoding>UTF-8</encoding>
-							<consoleOutput>true</consoleOutput>
-							<!-- don't fail here so the verify-phase report can be generated -->
-							<failOnViolation>false</failOnViolation>
-						</configuration>
 					</execution>
 					<execution>
 						<id>generate-checkstyle-report</id>
@@ -231,13 +236,8 @@
 						</goals>
 						<configuration>
 							<!-- generate XML report under target/checkstyle-result.xml -->
-							<configLocation>sun_checks.xml</configLocation>
-							<suppressionsLocation>config/checkstyle-suppressions.xml</suppressionsLocation>
-							<encoding>UTF-8</encoding>
 							<outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
 							<outputFileFormat>xml</outputFileFormat>
-							<!-- enforce at verify phase -->
-							<failOnViolation>true</failOnViolation>
 						</configuration>
 					</execution>
 				</executions>
@@ -305,11 +305,24 @@
 				<version>3.2.2</version>
 				<configuration>
 					<configLocation>sun_checks.xml</configLocation>
-					<suppressionsLocation>config/checkstyle-suppressions.xml</suppressionsLocation>
-					<encoding>UTF-8</encoding>
+					<suppressionsLocation>${project.basedir}/config/checkstyle-suppressions.xml</suppressionsLocation>
 				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>
 
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/richardhun/qualificationSystem</url>
+		</repository>
+		<snapshotRepository>
+			<id>github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/richardhun/qualificationSystem</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
+
