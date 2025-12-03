@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class RacingTrackControllerImpl implements RacingTrackController {
+public final class RacingTrackControllerImpl
+        implements RacingTrackController {
 
     private final RacingTrackService service;
 

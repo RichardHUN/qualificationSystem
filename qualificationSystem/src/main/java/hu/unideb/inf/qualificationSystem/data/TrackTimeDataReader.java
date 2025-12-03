@@ -12,18 +12,29 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reader for track time data from JSON file.
+ */
 @Slf4j
 @Component
-public class TrackTimeDataReader {
+public final class TrackTimeDataReader {
 
+    /**
+     * Reads track time data from JSON file.
+     * @return list of track times
+     */
     public List<TrackTime> readFromJson() {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            InputStream input = new ClassPathResource("track-times.json").getInputStream();
-            return mapper.readValue(input, new TypeReference<List<TrackTime>>() {});
+            InputStream input =
+                    new ClassPathResource("track-times.json")
+                            .getInputStream();
+            return mapper.readValue(input,
+                    new TypeReference<List<TrackTime>>() { });
         } catch (IOException e) {
-            log.warn("Could not read track-times.json file: {}", e.getMessage());
+            log.warn("Could not read track-times.json file: {}",
+                    e.getMessage());
             return new ArrayList<>();
         }
     }

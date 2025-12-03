@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <!-- Suppress missing Javadoc for interface methods (covered by implementation) -->
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]service[/\\].*Service\.java"/>
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]repository[/\\].*Repository\.java"/>
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]web[/\\].*Controller\.java"/>
+
+    <!-- Suppress missing Javadoc for model fields (Lombok generates getters/setters) -->
+    <suppress checks="MissingJavadocMethod" files=".*[/\\]model[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]model[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]data[/\\].*DTO\.java"/>
+
+    <!-- Suppress FinalParameters (too strict for Spring applications) -->
+    <suppress checks="FinalParametersCheck"/>
+
+    <!-- Suppress DesignForExtension for Spring beans and controllers -->
+    <suppress checks="DesignForExtensionCheck"/>
+
+    <!-- Suppress JavadocPackage (package-info.java not always needed) -->
+    <suppress checks="JavadocPackageCheck"/>
+
+    <!-- Suppress magic numbers in serializers/deserializers (time conversions) -->
+    <suppress checks="MagicNumberCheck" files=".*[/\\]util[/\\]TimeFormat.*\.java"/>
+
+    <!-- Suppress hiding utility class constructor for Spring Boot main class -->
+    <suppress checks="HideUtilityClassConstructorCheck" files=".*Application\.java"/>
+
+    <!-- Suppress missing Javadoc for application runner main method -->
+    <suppress checks="MissingJavadocMethod" files=".*Application\.java"/>
+
+    <!-- Suppress star imports for Lombok (common pattern) -->
+    <suppress checks="AvoidStarImport" files=".*" message="lombok\.\*"/>
+    <suppress checks="AvoidStarImport" files=".*" message="jakarta\.persistence\.\*"/>
+    <suppress checks="AvoidStarImport" files=".*" message="org\.springframework\.web\.bind\.annotation\.\*"/>
+
+    <!-- Suppress missing Javadoc for private fields in services and controllers -->
+    <suppress checks="JavadocVariable" files=".*[/\\]service[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]web[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]runner[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]config[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files=".*[/\\]util[/\\].*\.java"/>
+
+    <!-- Suppress line length violations (too strict for fluent code) -->
+    <suppress checks="LineLengthCheck"/>
+
+    <!-- Suppress operator wrap violations -->
+    <suppress checks="OperatorWrapCheck"/>
+</suppressions>

@@ -14,24 +14,32 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Command line runner to load racing driver data.
+ */
 @Slf4j
 @Order(1)
 @Component
 @AllArgsConstructor
-public class RacingDriverRunner implements CommandLineRunner {
+public final class RacingDriverRunner implements CommandLineRunner {
 
     private final RacingDriverRepository repository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(final String... args) throws Exception {
 
         ObjectMapper mapper = new ObjectMapper();
-        InputStream inputStream = new ClassPathResource("f1-drivers.json").getInputStream();
+        InputStream inputStream =
+                new ClassPathResource("f1-drivers.json")
+                        .getInputStream();
 
-        List<RacingDriver> drivers = mapper.readValue(inputStream, new TypeReference<List<RacingDriver>>() {});
+        List<RacingDriver> drivers = mapper.readValue(
+                inputStream,
+                new TypeReference<List<RacingDriver>>() { });
 
         drivers.stream()
                 .map(repository::save)
-                .forEach(driver -> log.info("Racing driver inserted: {}", driver));
+                .forEach(driver ->
+                        log.info("Racing driver inserted: {}", driver));
     }
 }

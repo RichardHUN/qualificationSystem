@@ -12,7 +12,8 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RacingTrackServiceImpl implements RacingTrackService {
+public final class RacingTrackServiceImpl
+        implements RacingTrackService {
 
     private final RacingTrackRepository repository;
     private final DomainDeletionService deletionService;
@@ -44,11 +45,18 @@ public class RacingTrackServiceImpl implements RacingTrackService {
 
     @Override
     public Iterable<RacingTrack> getAllByParams(String name, String country, String city) {
-        return StreamSupport.stream(repository.findAll().spliterator(), false)
+        return StreamSupport.stream(
+                repository.findAll().spliterator(), false)
                 .filter(track -> (
-                        (country == null || track.getCountry().toLowerCase().contains(country.toLowerCase())) &&
-                        (name == null || track.getName().toLowerCase().contains(name.toLowerCase())) &&
-                        (city == null || track.getCity().toLowerCase().contains(city.toLowerCase()))
+                        (country == null
+                                || track.getCountry().toLowerCase()
+                                        .contains(country.toLowerCase()))
+                        && (name == null
+                                || track.getName().toLowerCase()
+                                        .contains(name.toLowerCase()))
+                        && (city == null
+                                || track.getCity().toLowerCase()
+                                        .contains(city.toLowerCase()))
                     )
                 ).toList();
     }

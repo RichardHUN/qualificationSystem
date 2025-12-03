@@ -2,8 +2,15 @@ package hu.unideb.inf.qualificationSystem.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+/**
+ * Entity representing a racing driver.
+ */
 @Data
 @Entity
 @NoArgsConstructor

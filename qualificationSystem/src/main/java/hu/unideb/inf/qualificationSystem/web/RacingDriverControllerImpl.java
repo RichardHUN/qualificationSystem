@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class RacingDriverControllerImpl implements RacingDriverController {
+public final class RacingDriverControllerImpl
+        implements RacingDriverController {
 
     private final RacingDriverService service;
 
@@ -37,7 +38,8 @@ public class RacingDriverControllerImpl implements RacingDriverController {
     }
 
     @Override
-    public ResponseEntity<RacingDriver> update(Integer id, RacingDriver driver) {
+    public ResponseEntity<RacingDriver> update(
+            Integer id, RacingDriver driver) {
         try {
             RacingDriver updated = service.update(id, driver);
             return ResponseEntity.ok(updated);

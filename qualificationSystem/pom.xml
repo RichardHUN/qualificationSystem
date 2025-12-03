@@ -200,6 +200,48 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Added Checkstyle plugin (uses the built-in Sun checks resource) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.2.2</version>
+				<executions>
+					<execution>
+						<id>checkstyle</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<!-- Use the built-in Sun checks shipped with Checkstyle (no file in the repo) -->
+							<configLocation>sun_checks.xml</configLocation>
+							<suppressionsLocation>config/checkstyle-suppressions.xml</suppressionsLocation>
+							<encoding>UTF-8</encoding>
+							<consoleOutput>true</consoleOutput>
+							<!-- don't fail here so the verify-phase report can be generated -->
+							<failOnViolation>false</failOnViolation>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-checkstyle-report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>checkstyle</goal>
+						</goals>
+						<configuration>
+							<!-- generate XML report under target/checkstyle-result.xml -->
+							<configLocation>sun_checks.xml</configLocation>
+							<suppressionsLocation>config/checkstyle-suppressions.xml</suppressionsLocation>
+							<encoding>UTF-8</encoding>
+							<outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
+							<outputFileFormat>xml</outputFileFormat>
+							<!-- enforce at verify phase -->
+							<failOnViolation>true</failOnViolation>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
@@ -253,5 +295,21 @@
 		</pluginManagement>
 
 	</build>
+
+	<!-- Reporting section to enable target/site/checkstyle.html via site generation -->
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<configLocation>sun_checks.xml</configLocation>
+					<suppressionsLocation>config/checkstyle-suppressions.xml</suppressionsLocation>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 
 </project>

@@ -12,7 +12,8 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-public class TrackTimeControllerImpl implements TrackTimeController {
+public final class TrackTimeControllerImpl
+        implements TrackTimeController {
 
     private final TrackTimeService service;
 

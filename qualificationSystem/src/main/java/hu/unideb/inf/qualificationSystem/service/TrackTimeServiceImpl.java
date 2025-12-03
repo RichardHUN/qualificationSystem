@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TrackTimeServiceImpl implements TrackTimeService {
+public final class TrackTimeServiceImpl implements TrackTimeService {
 
     private final RacingDriverRepository driverRepository;
     private final RacingTrackRepository trackRepository;
@@ -39,17 +39,24 @@ public class TrackTimeServiceImpl implements TrackTimeService {
         return trackTimes
                 .stream()
                 .map(this::create)
-                .peek(trackTime -> log.info("Track time inserted: {}", trackTime))
+                .peek(trackTime ->
+                        log.info("Track time inserted: {}", trackTime))
                 .toList();
     }
 
     @Override
-    public TrackTime create(TrackTime trackTime) {
-        RacingDriver driver = driverService.getById(trackTime.getDriver().getNumber())
-                .orElseThrow(() -> new RuntimeException("Driver not found with number: " + trackTime.getDriver().getNumber()));
+    public TrackTime create(final TrackTime trackTime) {
+        RacingDriver driver = driverService.getById(
+                trackTime.getDriver().getNumber())
+                .orElseThrow(() -> new RuntimeException(
+                        "Driver not found with number: "
+                        + trackTime.getDriver().getNumber()));
 
-        RacingTrack track = trackService.getById(trackTime.getTrack().getCity())
-                .orElseThrow(() -> new RuntimeException("Track not found with city: " + trackTime.getTrack().getCity()));
+        RacingTrack track = trackService.getById(
+                trackTime.getTrack().getCity())
+                .orElseThrow(() -> new RuntimeException(
+                        "Track not found with city: "
+                        + trackTime.getTrack().getCity()));
 
         TrackTime toSave = trackTime.toBuilder()
                 .recordedAt(LocalDateTime.now())
@@ -61,12 +68,18 @@ public class TrackTimeServiceImpl implements TrackTimeService {
     }
 
     @Override
-    public TrackTime create(TrackTimeDTO trackTimeDTO) {
-        RacingDriver driver = driverService.getById(trackTimeDTO.getDriver())
-                .orElseThrow(() -> new RuntimeException("Driver not found with number: " + trackTimeDTO.getDriver()));
+    public TrackTime create(final TrackTimeDTO trackTimeDTO) {
+        RacingDriver driver = driverService.getById(
+                trackTimeDTO.getDriver())
+                .orElseThrow(() -> new RuntimeException(
+                        "Driver not found with number: "
+                        + trackTimeDTO.getDriver()));
 
-        RacingTrack track = trackService.getById(trackTimeDTO.getTrack())
-                .orElseThrow(() -> new RuntimeException("Track not found with city: " + trackTimeDTO.getTrack()));
+        RacingTrack track = trackService.getById(
+                trackTimeDTO.getTrack())
+                .orElseThrow(() -> new RuntimeException(
+                        "Track not found with city: "
+                        + trackTimeDTO.getTrack()));
 
         TrackTime toSave = TrackTime.builder()
                 .driver(driver)
@@ -94,10 +107,16 @@ public class TrackTimeServiceImpl implements TrackTimeService {
     }
 
     @Override
-    public Iterable<TrackTime> getAllByParams(String city, String driverName) {
-        return StreamSupport.stream(repository.findAll().spliterator(), false)
-                .filter(time -> city == null || time.getTrack().getCity().toLowerCase().contains(city.toLowerCase()))
-                .filter(time -> driverName == null || time.getDriver().getName().toLowerCase().contains(driverName.toLowerCase()))
+    public Iterable<TrackTime> getAllByParams(
+            final String city, final String driverName) {
+        return StreamSupport.stream(
+                repository.findAll().spliterator(), false)
+                .filter(time -> city == null
+                        || time.getTrack().getCity().toLowerCase()
+                                .contains(city.toLowerCase()))
+                .filter(time -> driverName == null
+                        || time.getDriver().getName().toLowerCase()
+                                .contains(driverName.toLowerCase()))
                 .toList();
     }
 
@@ -112,20 +131,25 @@ public class TrackTimeServiceImpl implements TrackTimeService {
     }
 
     @Override
-    public TrackTime updateWithDTO(UUID id, TrackTimeDTO trackTime) {
+    public TrackTime updateWithDTO(
+            final UUID id, final TrackTimeDTO trackTime) {
         Optional<TrackTime> existing = repository.findById(id);
         System.out.println(existing.orElseThrow());
-        Optional<RacingDriver> driver = driverRepository.findById(trackTime.getDriver());
+        Optional<RacingDriver> driver =
+                driverRepository.findById(trackTime.getDriver());
         System.out.println(driver.orElseThrow());
-        Optional<RacingTrack> track = trackRepository.findById(trackTime.getTrack());
+        Optional<RacingTrack> track =
+                trackRepository.findById(trackTime.getTrack());
         System.out.println(track.orElseThrow());
         if (existing.isPresent()) {
             existing.get()
                     .setDriver(
-                            driver.orElseGet(() -> existing.get().getDriver())
+                            driver.orElseGet(()
+                                    -> existing.get().getDriver())
                     );
             existing.get().setTrack(
-                    track.orElseGet(() -> existing.get().getTrack())
+                    track.orElseGet(()
+                            -> existing.get().getTrack())
             );
             existing.get().setTime(trackTime.getTime());
             existing.get().setRecordedAt(trackTime.getRecordedAt());
@@ -135,14 +159,16 @@ public class TrackTimeServiceImpl implements TrackTimeService {
     }
 
     @Override
-    public TrackTime penalty(UUID id, Integer penalty) {
+    public TrackTime penalty(final UUID id, final Integer penalty) {
         Optional<TrackTime> existing = repository.findById(id);
         if (existing.isPresent()) {
-            TrackTime trackTime = existing.get();
-            trackTime.setTime(trackTime.getTime().plus(Duration.ofSeconds(penalty)));
-            return repository.save(trackTime);
+            Duration newTime = existing.get().getTime()
+                    .plusSeconds(penalty);
+            existing.get().setTime(newTime);
+            return repository.save(existing.get());
         }
-        throw new RuntimeException("TrackTime not found with id: " + id);
+        throw new RuntimeException(
+                "TrackTime not found with id: " + id);
     }
 
     @Override

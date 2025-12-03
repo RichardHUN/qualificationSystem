@@ -12,7 +12,8 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RacingDriverServiceImpl implements RacingDriverService {
+public final class RacingDriverServiceImpl
+        implements RacingDriverService {
 
     private final RacingDriverRepository repository;
     private final DomainDeletionService deletionService;
@@ -34,9 +35,14 @@ public class RacingDriverServiceImpl implements RacingDriverService {
 
     @Override
     public Iterable<RacingDriver> getAllByParams(String name, String team) {
-        return StreamSupport.stream(repository.findAll().spliterator(), false)
-                .filter(driver -> name == null || driver.getName().toLowerCase().contains(name.toLowerCase()))
-                .filter(driver -> team == null || driver.getTeam().toLowerCase().contains(team.toLowerCase()))
+        return StreamSupport.stream(
+                repository.findAll().spliterator(), false)
+                .filter(driver -> name == null
+                        || driver.getName().toLowerCase()
+                                .contains(name.toLowerCase()))
+                .filter(driver -> team == null
+                        || driver.getTeam().toLowerCase()
+                                .contains(team.toLowerCase()))
                 .toList();
     }
 

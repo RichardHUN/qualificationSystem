@@ -7,21 +7,41 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import java.time.Duration;
 
-public class TimeFormatSerializer extends JsonSerializer<Duration> {
+/**
+ * Serializer for Duration to M:SS.mmm format.
+ */
+public final class TimeFormatSerializer
+        extends JsonSerializer<Duration> {
 
+    /** Milliseconds per minute. */
+    private static final int MILLIS_PER_MINUTE = 60000;
+    /** Milliseconds per second. */
+    private static final int MILLIS_PER_SECOND = 1000;
+
+    /**
+     * Serializes Duration to M:SS.mmm format.
+     * @param duration the duration to serialize
+     * @param gen the JSON generator
+     * @param serializers the serializer provider
+     * @throws IOException if writing fails
+     */
     @Override
-    public void serialize(Duration duration, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(final Duration duration,
+            final JsonGenerator gen,
+            final SerializerProvider serializers) throws IOException {
         if (duration == null) {
             gen.writeNull();
             return;
         }
 
         long totalMillis = duration.toMillis();
-        long minutes = totalMillis / 60000;
-        long seconds = (totalMillis % 60000) / 1000;
-        long millis = totalMillis % 1000;
+        long minutes = totalMillis / MILLIS_PER_MINUTE;
+        long seconds = (totalMillis % MILLIS_PER_MINUTE)
+                / MILLIS_PER_SECOND;
+        long millis = totalMillis % MILLIS_PER_SECOND;
 
-        String formatted = String.format("%d:%02d.%03d", minutes, seconds, millis);
+        String formatted = String.format("%d:%02d.%03d",
+                minutes, seconds, millis);
         gen.writeString(formatted);
     }
 }

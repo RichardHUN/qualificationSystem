@@ -9,6 +9,9 @@ import lombok.Getter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Data transfer object for track time.
+ */
 @Getter
 public class TrackTimeDTO {
 
